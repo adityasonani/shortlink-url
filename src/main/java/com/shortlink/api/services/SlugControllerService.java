@@ -48,7 +48,7 @@ public class SlugControllerService {
 		} 
 		return redirect;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "SlugControllerService [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
