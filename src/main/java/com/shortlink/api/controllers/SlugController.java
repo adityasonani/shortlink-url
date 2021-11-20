@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shortlink.api.model.LongUrlRequestModel;
@@ -29,8 +28,13 @@ public class SlugController {
 	SlugControllerService slugControllerService;
 	
 	@GetMapping("/")
-	public String check() {
-		return "Thanks for checking ShortLink. Try creating a new ShortLink URL";
+	public ResponseEntity<?> check() throws URISyntaxException {
+		URI uri = new URI("https://shortlink-app.herokuapp.com/");
+//		System.out.println(uri);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(uri);
+        return new ResponseEntity<>(httpHeaders, MOVED_PERMANENTLY);
+//		return "Thanks for checking ShortLink. Try creating a new ShortLink URL";
 	}
 	
 //	@PostMapping("/generate/{longurl}")
@@ -47,7 +51,7 @@ public class SlugController {
 	@GetMapping("/{slug}")
 	public ResponseEntity<?> redirectToLongUrlController(@PathVariable(value="slug") String shortUrl) throws URISyntaxException {
 		URI uri = new URI(slugControllerService.redirectToLongUrlControllerService(shortUrl));
-		System.out.println(uri);
+//		System.out.println(uri);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(uri);
         return new ResponseEntity<>(httpHeaders, MOVED_PERMANENTLY);
