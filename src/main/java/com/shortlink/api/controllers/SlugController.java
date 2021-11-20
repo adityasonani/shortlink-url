@@ -22,7 +22,7 @@ import com.shortlink.api.services.SlugControllerService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class SlugController {
 	
 	@Autowired
