@@ -28,13 +28,17 @@ public class SlugController {
 	SlugControllerService slugControllerService;
 	
 	@GetMapping("/")
-	public ResponseEntity<?> check() throws URISyntaxException {
+	public ResponseEntity<?> checkURL() throws URISyntaxException {
 		URI uri = new URI("https://shortlink-app.herokuapp.com/");
-//		System.out.println(uri);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(uri);
         return new ResponseEntity<>(httpHeaders, MOVED_PERMANENTLY);
-//		return "Thanks for checking ShortLink. Try creating a new ShortLink URL";
+	}
+	
+	@GetMapping("/check")
+	public ResponseEntity<String> checkApp() {
+		System.out.println("done");
+		return ResponseEntity.status(200).body("OK");
 	}
 	
 //	@PostMapping("/generate/{longurl}")
@@ -44,18 +48,14 @@ public class SlugController {
 	
 	@PostMapping("/generate")
 	public ResponseEntity<UrlModel> ShortUrlController(@RequestBody LongUrlRequestModel body) {
-//		System.out.println("posted /generate withh body "+body.getLongUrl());
 		return ResponseEntity.status(200).body(slugControllerService.ShortUrlControllerService(body));
 	}
 	
 	@GetMapping("/{slug}")
 	public ResponseEntity<?> redirectToLongUrlController(@PathVariable(value="slug") String shortUrl) throws URISyntaxException {
 		URI uri = new URI(slugControllerService.redirectToLongUrlControllerService(shortUrl));
-//		System.out.println(uri);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(uri);
         return new ResponseEntity<>(httpHeaders, MOVED_PERMANENTLY);
-
-//		return slugControllerService.redirectToLongUrlControllerService(shortUrl);
 	}
 }

@@ -19,7 +19,7 @@ public class SlugControllerService {
 		if (urlRepository.existsByLongUrl(body.getLongUrl())) {
 			return urlRepository.findByLongUrl(body.getLongUrl());
 		}
-
+		
 		// Base-62
 		String code = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		int min = 0, max = 59;
