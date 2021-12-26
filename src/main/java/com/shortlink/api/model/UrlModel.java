@@ -13,7 +13,7 @@ public class UrlModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int url_id;
-	@Column(name="long_url")
+	@Column(name="long_url", length = 2048)
 	private String longUrl;
 	@Column(name="short_url")
 	private String shortUrl;
