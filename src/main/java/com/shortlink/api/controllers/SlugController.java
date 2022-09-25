@@ -5,6 +5,8 @@ import static org.springframework.http.HttpStatus.MOVED_PERMANENTLY;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import com.shortlink.api.services.SlugControllerService;
 @CrossOrigin
 public class SlugController {
 	
+	Logger log = LoggerFactory.getLogger(SlugController.class);
+	
 	@Autowired
 	SlugControllerService slugControllerService;
 	
@@ -37,24 +41,21 @@ public class SlugController {
 	
 	@GetMapping("/check")
 	public ResponseEntity<String> checkApp() {
-		System.out.println("done");
+		log.info("Healthy");
 		return ResponseEntity.status(200).body("OK");
 	}
 	
-//	@PostMapping("/generate/{longurl}")
-//	public UrlModel ShortUrlController(@PathVariable(value="longurl") String longUrl) {
-//		return slugControllerService.ShortUrlControllerService(longUrl);
-//	}
-	
 	@PostMapping("/generate")
 	public ResponseEntity<UrlModel> ShortUrlController(@RequestBody LongUrlRequestModel body) {
-		return ResponseEntity.status(200).body(slugControllerService.ShortUrlControllerService(body));
+		return ResponseEntity.status(200).body(slugControllerService.ShortUrlControllerServiceNew(body));
 	}
 	
 	@GetMapping("/{slug}")
 	public ResponseEntity<?> redirectToLongUrlController(@PathVariable(value="slug") String shortUrl) throws URISyntaxException {
-		URI uri = new URI(slugControllerService.redirectToLongUrlControllerService(shortUrl));
+		log.info("Inside /slug :: shortUrl :: "+shortUrl);
+		URI uri = new URI(slugControllerService.redirectToLongUrlControllerServiceNew(shortUrl));
         HttpHeaders httpHeaders = new HttpHeaders();
+        log.info("uri :: "+uri);
         httpHeaders.setLocation(uri);
         return new ResponseEntity<>(httpHeaders, MOVED_PERMANENTLY);
 	}

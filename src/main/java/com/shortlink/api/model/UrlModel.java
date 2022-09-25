@@ -8,16 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="urldb")
+@Table(name = "urldb")
 public class UrlModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int url_id;
-	@Column(columnDefinition="text", length=10485760)
+	@Column(columnDefinition = "text", length = 10485760)
 	private String longUrl;
-	@Column(name="short_url")
+	@Column(name = "short_url")
 	private String shortUrl;
-	
+
 	public UrlModel() {
 	}
 
